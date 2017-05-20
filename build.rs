@@ -19,10 +19,11 @@ fn main() {
                               "--disable-bench",
                               "--disable-tests",
                               "--with-miniupnpc=no"]).status().unwrap();
-    Command::new("make").arg(format!("-j{}", num_cpus::get())).status().unwrap();
-    Command::new("make").args(&[&format!("-j{}", num_cpus::get()), "install"]).status().unwrap();
+    let cpus = num_cpus::get();
+    Command::new("make").arg(format!("-j{}", cpus)).status().unwrap();
+    Command::new("make").args(&[&format!("-j{}", cpus), "install"]).status().unwrap();
     env::set_current_dir("src/secp256k1").unwrap();
-    Command::new("make").args(&[&format!("-j{}", num_cpus::get()), "install"]).status().unwrap();
+    Command::new("make").args(&[&format!("-j{}", cpus), "install"]).status().unwrap();
 
     let target = env::var("TARGET").unwrap();
     if !target.contains("msvc") {
