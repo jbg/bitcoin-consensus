@@ -1,0 +1,12 @@
+[package]
+name = "bitcoin-consensus"
+version = "0.1.0"
+authors = ["Jasper Bryant-Greene <jbg@rf.net.nz>"]
+build = "build.rs"
+
+[dependencies]
+bitflags = "*"
+rustc-serialize = "*"
+
+[build-dependencies]
+num_cpus = "*"
