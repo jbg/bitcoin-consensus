@@ -7,6 +7,10 @@ build = "build.rs"
 [dependencies]
 bitflags = "*"
 rustc-serialize = "*"
+clippy = {version = "*", optional = true}
 
 [build-dependencies]
 num_cpus = "*"
+
+[features]
+default = []

@@ -1,3 +1,6 @@
+#![cfg_attr(feature="clippy", feature(plugin))]
+#![cfg_attr(feature="clippy", plugin(clippy))]
+
 #[macro_use] extern crate bitflags;
 
 #[link(name="bitcoinconsensus")]
@@ -19,7 +22,7 @@ pub enum ScriptVerificationError {
 bitflags! {
     pub flags ScriptVerificationFlags: u16 {
         const NONE = 0,
-        const P2SH = (1 << 0),
+        const P2SH = 1,
         const DER_SIG = (1 << 2),
         const NULL_DUMMY = (1 << 4),
         const CHECK_LOCK_TIME_VERIFY = (1 << 9),
@@ -40,7 +43,7 @@ fn map_error(err: u16) -> ScriptVerificationError {
     }
 }
 
-pub fn verify_script(pub_key: Vec<u8>, tx: Vec<u8>, input: u16, flags: ScriptVerificationFlags) -> Result<(), ScriptVerificationError> {
+pub fn verify_script(pub_key: &[u8], tx: &[u8], input: u16, flags: ScriptVerificationFlags) -> Result<(), ScriptVerificationError> {
     unsafe {
         let mut err: u16 = 0;
         let res = bitcoinconsensus_verify_script(pub_key.as_ptr(), pub_key.len() as u16, tx.as_ptr(), tx.len() as u16, input, flags.bits, &mut err as *mut u16);
@@ -48,7 +51,7 @@ pub fn verify_script(pub_key: Vec<u8>, tx: Vec<u8>, input: u16, flags: ScriptVer
     }
 }
 
-pub fn verify_script_with_amount(pub_key: Vec<u8>, amount: i64, tx: Vec<u8>, input: u16, flags: ScriptVerificationFlags) -> Result<(), ScriptVerificationError> {
+pub fn verify_script_with_amount(pub_key: &[u8], amount: i64, tx: &[u8], input: u16, flags: ScriptVerificationFlags) -> Result<(), ScriptVerificationError> {
     unsafe {
         let mut err: u16 = 0;
         let res = bitcoinconsensus_verify_script_with_amount(pub_key.as_ptr(), pub_key.len() as u16, amount, tx.as_ptr(), tx.len() as u16, input, flags.bits, &mut err as *mut u16);
