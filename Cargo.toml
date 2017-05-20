@@ -1,6 +1,6 @@
 [package]
 name = "bitcoin-consensus"
-version = "0.1.0"
+version = "0.14.1"
 authors = ["Jasper Bryant-Greene <jbg@rf.net.nz>"]
 build = "build.rs"
 
