@@ -1,0 +1,3 @@
+[submodule "bitcoin-core"]
+	path = bitcoin-core
+	url = https://github.com/bitcoin/bitcoin
