@@ -1,6 +1,6 @@
 dependencies:
   override:
-    - curl https://sh.rustup.rs -sSf | sh
+    - curl https://sh.rustup.rs -sSf | sh -s -- -y
     - rustup install stable
     - rustup install nightly
 test:
