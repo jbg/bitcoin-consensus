@@ -1,0 +1,9 @@
+dependencies:
+  override:
+    - curl https://sh.rustup.rs -sSf | sh
+    - rustup install stable
+    - rustup install nightly
+test:
+  override:
+    - rustup run stable cargo test
+    - rustup run nightly cargo test
