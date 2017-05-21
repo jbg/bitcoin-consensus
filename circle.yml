@@ -1,6 +1,6 @@
 dependencies:
   override:
-    - sed -i 's~https://github.com~https://github.com/~' ~/.gitconfig
+    - sed -i 's~https://github.com/~https://github.com~' ~/.gitconfig
     - curl https://sh.rustup.rs -sSf | sh -s -- -y
     - ~/.cargo/bin/rustup install stable
     - ~/.cargo/bin/rustup install nightly
