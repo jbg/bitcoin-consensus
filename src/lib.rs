@@ -7,6 +7,7 @@
 extern {
     fn bitcoinconsensus_verify_script(script_pub_key: *const u8, script_pub_key_len: u16, tx_to: *const u8, tx_to_len: u16, n_in: u16, flags: u16, error: *mut u16) -> u16;
     fn bitcoinconsensus_verify_script_with_amount(script_pub_key: *const u8, script_pub_key_len: u16, amount: i64, tx_to: *const u8, tx_to_len: u16, n_in: u16, flags: u16, error: *mut u16) -> u16;
+    fn bitcoinconsensus_version() -> u16;
 }
 
 #[derive(Debug)]
@@ -56,6 +57,12 @@ pub fn verify_script_with_amount(pub_key: &[u8], amount: i64, tx: &[u8], input: 
         let mut err: u16 = 0;
         let res = bitcoinconsensus_verify_script_with_amount(pub_key.as_ptr(), pub_key.len() as u16, amount, tx.as_ptr(), tx.len() as u16, input, flags.bits, &mut err as *mut u16);
         if res == 1 { Ok(()) } else { Err(map_error(err)) }
+    }
+}
+
+pub fn version() -> u16 {
+    unsafe {
+        bitcoinconsensus_version()
     }
 }
 
