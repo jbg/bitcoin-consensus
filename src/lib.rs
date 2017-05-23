@@ -36,6 +36,7 @@
 
 #[macro_use] extern crate bitflags;
 
+#[link(name="bitcoinconsensus")]
 extern {
     fn bitcoinconsensus_verify_script(script_pub_key: *const u8, script_pub_key_len: u16, tx_to: *const u8, tx_to_len: u16, n_in: u16, flags: u16, error: *mut u16) -> u16;
     fn bitcoinconsensus_verify_script_with_amount(script_pub_key: *const u8, script_pub_key_len: u16, amount: i64, tx_to: *const u8, tx_to_len: u16, n_in: u16, flags: u16, error: *mut u16) -> u16;
