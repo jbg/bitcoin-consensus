@@ -4,7 +4,7 @@ use std::process::Command;
 use std::env;
 
 fn main() {
-    Command::new("git").args(&["submodule", "update", "--init"]).status().unwrap();
+//    Command::new("git").args(&["submodule", "update", "--init"]).status().unwrap();
     env::set_current_dir("bitcoin-core").unwrap();
 
     Command::new("sh").arg("./autogen.sh").status().unwrap();

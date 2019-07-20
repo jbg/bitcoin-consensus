@@ -5,19 +5,16 @@ repository = "https://github.com/jbg/bitcoin-consensus"
 documentation = "https://docs.rs/bitcoin-consensus/"
 readme = "README.md"
 license = "Apache-2.0"
-version = "0.2.3"
+version = "0.3.0+0.18.0"
 authors = ["Jasper Bryant-Greene <jbg@rf.net.nz>"]
 build = "build.rs"
+edition = "2018"
 
 [dependencies]
-bitflags = "1.0"
-clippy = {version = "0.0", optional = true}
+bitflags = "1.1.0"
 
 [dev-dependencies]
-hex = "0.3"
+hex = "0.3.2"
 
 [build-dependencies]
-num_cpus = "1.8"
-
-[features]
-default = []
+num_cpus = "1.10.1"

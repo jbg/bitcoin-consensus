@@ -1,9 +1,6 @@
 //! Rust bindings to libbitcoinconsensus
 //!
 //! ```rust
-//! extern crate bitcoin_consensus;
-//! extern crate hex;
-//!
 //! use hex::FromHex;
 //! use bitcoin_consensus::{verify_script, ScriptVerificationFlags};
 //!
@@ -31,15 +28,32 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#![cfg_attr(feature="clippy", feature(plugin))]
-#![cfg_attr(feature="clippy", plugin(clippy))]
+use bitflags::bitflags;
 
-#[macro_use] extern crate bitflags;
 
 #[link(name="bitcoinconsensus")]
 extern {
-    fn bitcoinconsensus_verify_script(script_pub_key: *const u8, script_pub_key_len: u16, tx_to: *const u8, tx_to_len: u16, n_in: u16, flags: u16, error: *mut u16) -> u16;
-    fn bitcoinconsensus_verify_script_with_amount(script_pub_key: *const u8, script_pub_key_len: u16, amount: i64, tx_to: *const u8, tx_to_len: u16, n_in: u16, flags: u16, error: *mut u16) -> u16;
+    fn bitcoinconsensus_verify_script(
+        script_pub_key: *const u8,
+        script_pub_key_len: u16,
+        tx_to: *const u8,
+        tx_to_len: u16,
+        n_in: u16,
+        flags: u16,
+        error: *mut u16
+    ) -> u16;
+
+    fn bitcoinconsensus_verify_script_with_amount(
+        script_pub_key: *const u8,
+        script_pub_key_len: u16,
+        amount: i64,
+        tx_to: *const u8,
+        tx_to_len: u16,
+        n_in: u16,
+        flags: u16,
+        error: *mut u16
+    ) -> u16;
+
     fn bitcoinconsensus_version() -> u16;
 }
 
@@ -80,7 +94,15 @@ fn map_error(err: u16) -> ScriptVerificationError {
 pub fn verify_script(pub_key: &[u8], tx: &[u8], input: u16, flags: ScriptVerificationFlags) -> Result<(), ScriptVerificationError> {
     unsafe {
         let mut err: u16 = 0;
-        let res = bitcoinconsensus_verify_script(pub_key.as_ptr(), pub_key.len() as u16, tx.as_ptr(), tx.len() as u16, input, flags.bits, &mut err as *mut u16);
+        let res = bitcoinconsensus_verify_script(
+            pub_key.as_ptr(),
+            pub_key.len() as u16,
+            tx.as_ptr(),
+            tx.len() as u16,
+            input,
+            flags.bits,
+            &mut err as *mut u16
+        );
         if res == 1 { Ok(()) } else { Err(map_error(err)) }
     }
 }
@@ -90,7 +112,16 @@ pub fn verify_script(pub_key: &[u8], tx: &[u8], input: u16, flags: ScriptVerific
 pub fn verify_script_with_amount(pub_key: &[u8], amount: i64, tx: &[u8], input: u16, flags: ScriptVerificationFlags) -> Result<(), ScriptVerificationError> {
     unsafe {
         let mut err: u16 = 0;
-        let res = bitcoinconsensus_verify_script_with_amount(pub_key.as_ptr(), pub_key.len() as u16, amount, tx.as_ptr(), tx.len() as u16, input, flags.bits, &mut err as *mut u16);
+        let res = bitcoinconsensus_verify_script_with_amount(
+            pub_key.as_ptr(),
+            pub_key.len() as u16,
+            amount,
+            tx.as_ptr(),
+            tx.len() as u16,
+            input,
+            flags.bits,
+            &mut err as *mut u16
+        );
         if res == 1 { Ok(()) } else { Err(map_error(err)) }
     }
 }
