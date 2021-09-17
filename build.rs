@@ -28,12 +28,6 @@ fn main() {
     let cpus = num_cpus::get();
     Command::new("make").arg(format!("-j{}", cpus)).status().unwrap();
 
-    let target = env::var("TARGET").unwrap();
-    if !target.contains("msvc") {
-        let cpplib = if target.contains("darwin") || target.contains("freebsd") { "c++" } else { "stdc++" };
-        println!("cargo:rustc-link-lib=dylib={}", cpplib);
-    }
-
     println!("cargo:rustc-link-search=native={}/src/.libs", bitcoin_build_dir.to_str().unwrap());
     println!("cargo:rustc-link-search=native={}/src/secp256k1/.libs", bitcoin_build_dir.to_str().unwrap());
     println!("cargo:rustc-link-lib=static=bitcoinconsensus");
